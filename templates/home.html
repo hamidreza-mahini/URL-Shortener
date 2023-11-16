@@ -1,0 +1,27 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends 'base.html' %}
+{% block title %} URL Shortener {% endblock %}
+{% block content %}
+<form method="post" novalidate>
+    {{ form.csrf_token }}
+    <dl>
+        {{ render_field(form.long_url, placeholder_='https://www.google.com') }}
+        {{ form.submit(class_='btn btn-primary') }}
+    </dl>
+</form>
+<div class="container-fluid">
+    {% with cat_msg = get_flashed_messages(with_categories=True) %}
+        {% if cat_msg %}
+            {% for cm in cat_msg %}
+                <div class="alert alert-{{ cm[0] }} alert-dismissible fade show" role="alert">
+                    {% if cm[0] == 'info' %}
+                        <strong><a href={{ cm[1] }}>{{ cm[1] }}</a></strong>
+                    {% else %}    
+                        <strong>{{ cm[1] }}</strong>
+                    {% endif %}    
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}
